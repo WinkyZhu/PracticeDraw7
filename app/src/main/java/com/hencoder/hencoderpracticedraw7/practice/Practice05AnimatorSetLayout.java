@@ -2,6 +2,7 @@ package com.hencoder.hencoderpracticedraw7.practice;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -38,7 +39,10 @@ public class Practice05AnimatorSetLayout extends RelativeLayout {
             public void onClick(View v) {
                 view.setTranslationX(-200f);
 
-                ObjectAnimator animator1 = ObjectAnimator.ofFloat(view, "alpha", 0, 1);
+                PropertyValuesHolder scaleXHolder = PropertyValuesHolder.ofFloat("scaleX", 0, 1);
+                PropertyValuesHolder scaleYHolder = PropertyValuesHolder.ofFloat("scaleY", 0, 1);
+                PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat("alpha", 0, 1);
+                ObjectAnimator animator1 = ObjectAnimator.ofPropertyValuesHolder(view, scaleXHolder, scaleYHolder, alphaHolder);
                 ObjectAnimator animator2 = ObjectAnimator.ofFloat(view, "translationX", -200, 200);
                 ObjectAnimator animator3 = ObjectAnimator.ofFloat(view, "rotation", 0, 1080);
                 animator3.setDuration(1000);
@@ -47,7 +51,8 @@ public class Practice05AnimatorSetLayout extends RelativeLayout {
                 // 用 AnimatorSet 的方法来让三个动画协作执行
                 // 要求 1： animator1 先执行，animator2 在 animator1 完成后立即开始
                 // 要求 2： animator2 和 animator3 同时开始
-
+                animatorSet.playSequentially(animator1, animator2);
+                animatorSet.play(animator3).with(animator2);
                 animatorSet.start();
             }
         });

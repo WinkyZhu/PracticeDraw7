@@ -51,6 +51,7 @@ public class Practice02HsvEvaluatorLayout extends RelativeLayout {
         // 重写 evaluate() 方法，让颜色按照 HSV 来变化
         @Override
         public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+
             return startValue;
         }
     }
